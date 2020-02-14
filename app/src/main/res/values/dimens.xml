@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+
+    <!-- Text size-->
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_27">27sp</dimen>
+
+    <!-- Integers -->
+
+    <integer name="value_10">10</integer>
+
+    <!-- item_movie -->
+    <dimen name="item_movie_genre_tv_padding">10dp</dimen>
+    <dimen name="item_movie_genre_tv_text_size">18sp</dimen>
+
+    <!-- fragment_movies -->
+    <dimen name="tv_error_text_size">20sp</dimen>
+</resources>

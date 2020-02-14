@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+def getProperty(String filename, String propertyName) {
+    def propertiesFile = rootProject.file(filename)
+    if (propertiesFile.exists()) {
+        def properties = new Properties()
+        properties.load(new FileInputStream(propertiesFile))
+        if (properties[propertyName] != null) {
+            return properties[propertyName]
+        } else {
+            print("No such property " + propertyName + " in file " + filename)
+        }
+    } else {
+        print(filename + " does not exist!")
+    }
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.nagot.sky"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "API_KEY", "\"${getProperty("local.properties", "api_key")}\""
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+
+    // support library
+
+    implementation "androidx.appcompat:appcompat:$app_compat"
+    implementation "androidx.recyclerview:recyclerview:$android_x_version"
+    implementation "androidx.core:core-ktx:$android_core"
+    implementation "androidx.constraintlayout:constraintlayout:$contrain_layout"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.annotation:annotation:$androidXAnnotations"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // architecture components
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_ext"
+
+    // network
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    // dagger 2
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // kotlin
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.github.florent37:glidepalette:$glidePaletteVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    //coroutines
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    // test
+
+    testImplementation "junit:junit:$junit"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrest"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "androidx.arch.core:core-testing:$core_testing"
+    androidTestImplementation "androidx.test.ext:junit:$ext_junit"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    androidTestImplementation "com.android.support.test:runner:$test_runner_rules"
+    androidTestImplementation "com.android.support.test:rules:$test_runner_rules"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_core"
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso_core", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
+
+androidExtensions {
+    experimental = true
+}
